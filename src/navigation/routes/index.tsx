@@ -1,0 +1,1 @@
+export { default as DefaultRootRoutes } from './Root.routes';
