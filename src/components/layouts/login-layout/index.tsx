@@ -6,6 +6,8 @@ import { Pressable, Text, View } from "react-native";
 import getStyles from "./LoginLayout.styles";
 import ThemeToggleButton from "@/components/theme-button";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { StackActions, useNavigation } from "@react-navigation/native";
+import { ABOUT_SCREEN } from "@/constants/Route.constants";
 
 type TProps = {
     children: ReactNode
@@ -14,10 +16,13 @@ type TProps = {
 export default function LoginLayout({ children }: TProps) {
     const theme = useCustomTheme();
     const styles = getStyles(theme);
+    const navigation = useNavigation();
+
+    const OnAboutPress = () => navigation.dispatch(StackActions.push(ABOUT_SCREEN))
 
     return (
         <SafeAreaView style={styles.mainContainer}>
-            <Pressable style={styles.aboutBtnStyle} onPress={() => console.log('hi')}>
+            <Pressable style={styles.aboutBtnStyle} onPress={OnAboutPress}>
                 <Ionicons name="alert-circle-outline" size={20} color={theme.colors.black} />
             </Pressable>
             <ThemeToggleButton style={styles.themeBtnStyle} />

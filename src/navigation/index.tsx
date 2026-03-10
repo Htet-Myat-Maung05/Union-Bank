@@ -1,14 +1,29 @@
 import { SPLASH_SCREEN } from '@/constants/Route.constants';
 import { useAppSelector } from '@/hooks/redux.hook';
-import LoginScreen from '@/screens/login-screen';
 import SplashScreen from '@/screens/splash-screen';
 import { CustomDarkTheme, CustomLightTheme, IExtendedTheme } from '@/styles/Theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
 import { StatusBar } from 'react-native';
+import { PublicRoutes } from './routes/Public.routes';
 
 const RootStack = createNativeStackNavigator()
+
+const AuthNavigation = () => {
+    return (
+        <RootStack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }}>
+            <RootStack.Screen
+                name={PublicRoutes.Login.name}
+                component={PublicRoutes.Login.component}
+            />
+            <RootStack.Screen
+                name={PublicRoutes.About.name}
+                component={PublicRoutes.About.component}
+            />
+        </RootStack.Navigator>
+    )
+}
 
 const RootNavigation: React.FC = () => {
     const isDarkMode: boolean = useAppSelector(state => state?.theme?.isDarkMode);
@@ -16,10 +31,13 @@ const RootNavigation: React.FC = () => {
 
     return (
         <NavigationContainer theme={theme}>
-            <StatusBar barStyle={'dark-content'} backgroundColor={'#000000'} />
+            <StatusBar
+                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                backgroundColor={theme.colors.background}
+            />
             <RootStack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }} initialRouteName={SPLASH_SCREEN}>
                 <RootStack.Screen name='SPLASH_SCREEN' component={SplashScreen} />
-                <RootStack.Screen name='LOGIN_SCREEN' component={LoginScreen} />
+                <RootStack.Screen name='AUTH_NAVIGATION' component={AuthNavigation} />
             </RootStack.Navigator>
         </NavigationContainer >
     )
