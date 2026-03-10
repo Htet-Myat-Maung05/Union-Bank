@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react"
 import { View } from "react-native";
 import getStyles from "./SplashScreen.styles";
 import { StackActions, useNavigation } from "@react-navigation/native";
-import { LOGIN_SCREEN } from "@/constants/Route.constants";
+import { AUTH_NAVIGATION } from "@/constants/Route.constants";
 
 const SplashScreen: React.FC = () => {
     const styles = getStyles();
@@ -24,7 +24,7 @@ const SplashScreen: React.FC = () => {
     }, [])
 
     setTimeout(() => {
-        navigation.dispatch(StackActions.replace(LOGIN_SCREEN))
+        navigation.dispatch(StackActions.replace(AUTH_NAVIGATION))
     }, 2000)
 
     return (
