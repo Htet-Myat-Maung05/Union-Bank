@@ -12,7 +12,7 @@ export default function AboutUsScreen() {
     const styles = getStyles(theme);
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+        <SafeAreaView style={styles.mainContainer}>
             <BackButton />
 
             <ScrollView
