@@ -21,6 +21,10 @@ const AuthNavigation = () => {
                 name={PublicRoutes.About.name}
                 component={PublicRoutes.About.component}
             />
+            <RootStack.Screen
+                name={PublicRoutes.Register.name}
+                component={PublicRoutes.Register.component}
+            />
         </RootStack.Navigator>
     )
 }

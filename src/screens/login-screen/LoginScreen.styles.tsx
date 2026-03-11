@@ -31,11 +31,13 @@ const getStyles = (theme: IExtendedTheme) =>
         },
         BottmText: {
             textAlign: 'center',
-            color: theme.colors.placeHolderTextColor
+            color: theme.colors.placeHolderTextColor,
+
         },
         SignUpText: {
             fontWeight: 800,
             color: theme.colors.black,
+            marginLeft: 5
         }
     })
 

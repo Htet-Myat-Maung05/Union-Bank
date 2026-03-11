@@ -1,7 +1,7 @@
 import { Alert, Pressable, Text, View } from 'react-native'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { getLoginSchema, TLoginSchema } from '@/validations/zod-validation-scheme/login-scheme.zod'
+import { getLoginSchema, TLoginSchema } from '@/validations/zod-validation-scheme/loginScheme.zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import LoginLayout from '@/components/layouts/login-layout'
 import RNTextInput from '@/components/text-input'
@@ -11,10 +11,14 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import useCustomTheme from '@/hooks/useCustomTheme.hook'
 import OrDivider from '@/components/or-divider'
 import { SocialLoginButton } from '@/components/social-login-button'
+import { StackActions, useNavigation } from '@react-navigation/native'
+import { REGISTER_SCREEN } from '@/constants/Route.constants'
+import FirebaseAuth from '@/services/FirebaseAuth.service'
 
 const LoginScreen: React.FC = () => {
     const theme = useCustomTheme();
     const styles = getStyles(theme);
+    const navigation = useNavigation();
 
     const { ...methods } = useForm<TLoginSchema>({
         resolver: zodResolver(getLoginSchema()),
@@ -26,11 +30,11 @@ const LoginScreen: React.FC = () => {
 
     const onSubmit = async (data: TLoginSchema) => {
         try {
-            console.log('Login Data:', data);
+            await FirebaseAuth.signIn(data.email, data.password);
 
             Alert.alert('အောင်မြင်ပါသည်', 'အကောင့်ဝင်ရောက်မှု အောင်မြင်ပါသည်');
         } catch (error) {
-            Alert.alert('မအောင်မြင်ပါ', 'အကောင့်ဝင်ရောက်မှု မအောင်မြင်ပါ');
+            Alert.alert('Login failed', 'Failed to login to your account.');
             console.error('Login failed:', error);
         }
     };
@@ -84,7 +88,11 @@ const LoginScreen: React.FC = () => {
                         />
                     </View>
 
-                    <Text style={styles.BottmText}>Don't have an account ? <Text style={styles.SignUpText}>Sign Up</Text></Text>
+                    <Text style={styles.BottmText}>Don't have an account ?
+                        <Pressable onPress={() => navigation.dispatch(StackActions.replace(REGISTER_SCREEN))}>
+                            <Text style={styles.SignUpText}>Sign Up</Text>
+                        </Pressable>
+                    </Text>
 
                 </View>
             </FormProvider>

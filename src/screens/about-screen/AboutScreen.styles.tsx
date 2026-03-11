@@ -3,6 +3,10 @@ import { StyleSheet } from "react-native";
 
 const getStyles = (theme: IExtendedTheme) =>
     StyleSheet.create({
+        mainContainer: {
+            flex: 1,
+            backgroundColor: theme.colors.background
+        },
         scrollContent: {
             paddingHorizontal: 20,
             paddingVertical: 24,

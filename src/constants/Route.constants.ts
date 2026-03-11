@@ -7,4 +7,5 @@ export const AUTH_NAVIGATION = 'AUTH_NAVIGATION';
 
 //screen
 export const LOGIN_SCREEN = 'LOGIN_SCREEN';
+export const REGISTER_SCREEN = 'REGISTER_SCREEN';
 export const ABOUT_SCREEN = 'ABOUT_SCREEN';
