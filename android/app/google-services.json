@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "316734172004",
+    "project_id": "unionbank-46f13",
+    "storage_bucket": "unionbank-46f13.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316734172004:android:cc35540e3b82af1dfb6871",
+        "android_client_info": {
+          "package_name": "com.unionbank"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_qMBy83tz-h_SLJyBKBwkfPzhp06cXao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

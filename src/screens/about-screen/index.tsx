@@ -4,8 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import RNText from '@/components/custom-text';
 import useCustomTheme from '@/hooks/useCustomTheme.hook';
 import getStyles from './AboutScreen.styles';
-import Ionicons from 'react-native-vector-icons/Ionicons'
 import BackButton from '@/components/back-button';
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export default function AboutUsScreen() {
     const theme = useCustomTheme();
@@ -121,3 +121,4 @@ export default function AboutUsScreen() {
         </SafeAreaView>
     );
 }
+

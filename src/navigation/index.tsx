@@ -21,6 +21,10 @@ const AuthNavigation = () => {
                 name={PublicRoutes.About.name}
                 component={PublicRoutes.About.component}
             />
+            <RootStack.Screen
+                name={PublicRoutes.Register.name}
+                component={PublicRoutes.Register.component}
+            />
         </RootStack.Navigator>
     )
 }
@@ -31,7 +35,10 @@ const RootNavigation: React.FC = () => {
 
     return (
         <NavigationContainer theme={theme}>
-            <StatusBar barStyle={'dark-content'} backgroundColor={'#000000'} />
+            <StatusBar
+                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                backgroundColor={theme.colors.background}
+            />
             <RootStack.Navigator screenOptions={{ headerShown: false, gestureEnabled: false }} initialRouteName={SPLASH_SCREEN}>
                 <RootStack.Screen name='SPLASH_SCREEN' component={SplashScreen} />
                 <RootStack.Screen name='AUTH_NAVIGATION' component={AuthNavigation} />

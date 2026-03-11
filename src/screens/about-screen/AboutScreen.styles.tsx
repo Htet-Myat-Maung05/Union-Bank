@@ -1,4 +1,3 @@
-
 import { IExtendedTheme } from "@/styles/Theme";
 import { StyleSheet } from "react-native";
 

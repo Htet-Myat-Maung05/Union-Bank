@@ -1,52 +1,55 @@
-import { Alert, Pressable, Text, View } from 'react-native'
-import React from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
-import { getLoginSchema, TLoginSchema } from '@/validations/zod-validation-scheme/loginScheme.zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import LoginLayout from '@/components/layouts/login-layout'
-import RNTextInput from '@/components/text-input'
-import RNText from "@/components/custom-text";
-import getStyles from './LoginScreen.styles'
-import Ionicons from "react-native-vector-icons/Ionicons";
-import useCustomTheme from '@/hooks/useCustomTheme.hook'
-import OrDivider from '@/components/or-divider'
-import { SocialLoginButton } from '@/components/social-login-button'
-import { StackActions, useNavigation } from '@react-navigation/native'
-import { REGISTER_SCREEN } from '@/constants/Route.constants'
-import FirebaseAuth from '@/services/FirebaseAuth.service'
+import LoginLayout from "@/components/layouts/login-layout";
+import useCustomTheme from "@/hooks/useCustomTheme.hook"
+import { getRegisterSchema, TRegisterSchema } from "@/validations/zod-validation-scheme/registerScheme.zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormProvider, useForm } from "react-hook-form";
+import { Alert, Pressable, Text, View } from "react-native";
+import getStyles from "./SignUpScreen.styles";
+import RNTextInput from "@/components/text-input";
+import Ionicons from "react-native-vector-icons/Ionicons"
+import { StackActions, useNavigation } from "@react-navigation/native";
+import { LOGIN_SCREEN } from "@/constants/Route.constants";
+import { SocialLoginButton } from "@/components/social-login-button";
+import OrDivider from "@/components/or-divider";
+import RNText from "@/components/custom-text"
+import FirebaseAuth from "@/services/FirebaseAuth.service";
 
-const LoginScreen: React.FC = () => {
+const RegisterScreen: React.FC = () => {
     const theme = useCustomTheme();
     const styles = getStyles(theme);
     const navigation = useNavigation();
 
-    const { ...methods } = useForm<TLoginSchema>({
-        resolver: zodResolver(getLoginSchema()),
+    const { ...methods } = useForm<TRegisterSchema>({
+        resolver: zodResolver(getRegisterSchema()),
         defaultValues: {
+            username: '',
             email: '',
             password: ''
         }
-    })
+    });
 
-    const onSubmit = async (data: TLoginSchema) => {
+    const onSubmit = async (data: TRegisterSchema) => {
         try {
-            await FirebaseAuth.signIn(data.email, data.password);
-
-            Alert.alert('အောင်မြင်ပါသည်', 'အကောင့်ဝင်ရောက်မှု အောင်မြင်ပါသည်');
+            await FirebaseAuth.signUp(data.username, data.email, data.password);
         } catch (error) {
-            Alert.alert('Login failed', 'Failed to login to your account.');
+            Alert.alert('Login failed:', 'Failed to create account .');
             console.error('Login failed:', error);
         }
-    };
+    }
 
     const onError = (errors: any) => {
         console.log('Validation errors:', errors);
-    };
+    }
 
     return (
         <LoginLayout>
             <FormProvider {...methods}>
                 <View style={styles.mainContainer}>
+                    <RNTextInput
+                        name="username"
+                        placeholder="Enter username"
+                        onChangeText={(value) => methods.setValue('username', value, { shouldValidate: true })}
+                        leftIcon={<Ionicons name='person' size={18} color={theme.colors.icon} />} />
                     <RNTextInput
                         name='email'
                         placeholder='Enter your email address'
@@ -68,7 +71,7 @@ const LoginScreen: React.FC = () => {
                     <Pressable
                         style={styles.SignInBtn}
                         onPress={methods.handleSubmit(onSubmit, onError)}>
-                        <Text style={styles.SignInText}>Sign In</Text>
+                        <Text style={styles.SignInText}>Sign Up</Text>
                     </Pressable>
 
                     <OrDivider />
@@ -88,16 +91,15 @@ const LoginScreen: React.FC = () => {
                         />
                     </View>
 
-                    <Text style={styles.BottmText}>Don't have an account ?
-                        <Pressable onPress={() => navigation.dispatch(StackActions.replace(REGISTER_SCREEN))}>
-                            <Text style={styles.SignUpText}>Sign Up</Text>
+                    <Text style={styles.BottmText}>Already have an account ?
+                        <Pressable onPress={() => navigation.dispatch(StackActions.replace(LOGIN_SCREEN))}>
+                            <Text style={styles.SignUpText}>Sign In</Text>
                         </Pressable>
                     </Text>
-
                 </View>
             </FormProvider>
-        </LoginLayout >
+        </LoginLayout>
     )
 }
 
-export default LoginScreen
+export default RegisterScreen;
