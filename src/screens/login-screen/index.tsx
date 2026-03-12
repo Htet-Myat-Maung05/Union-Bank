@@ -14,8 +14,11 @@ import { SocialLoginButton } from '@/components/social-login-button'
 import { StackActions, useNavigation } from '@react-navigation/native'
 import { REGISTER_SCREEN } from '@/constants/Route.constants'
 import FirebaseAuth from '@/services/FirebaseAuth.service'
+import { useDispatch } from 'react-redux'
+import { setLogin } from '@/redux/slices/authSlice'
 
 const LoginScreen: React.FC = () => {
+    const dispatch = useDispatch();
     const theme = useCustomTheme();
     const styles = getStyles(theme);
     const navigation = useNavigation();
@@ -30,8 +33,8 @@ const LoginScreen: React.FC = () => {
 
     const onSubmit = async (data: TLoginSchema) => {
         try {
-            await FirebaseAuth.signIn(data.email, data.password);
-
+            const user = await FirebaseAuth.signIn(data.email, data.password);
+            dispatch(setLogin(user));
             Alert.alert('အောင်မြင်ပါသည်', 'အကောင့်ဝင်ရောက်မှု အောင်မြင်ပါသည်');
         } catch (error) {
             Alert.alert('Login failed', 'Failed to login to your account.');
