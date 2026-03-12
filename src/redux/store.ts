@@ -3,6 +3,7 @@ import EncryptedStorage from "react-native-encrypted-storage";
 import { persistReducer } from "redux-persist";
 import { persistStore } from 'redux-persist';
 import themeSlice from "./slices/themeSlice";
+import authSlice from "./slices/authSlice";
 
 const EncryptedStorageAdapter = {
     setItem: async (key: string, value: string) => {
@@ -17,13 +18,14 @@ const EncryptedStorageAdapter = {
 };
 
 const reducers = combineReducers({
-    theme: themeSlice
+    theme: themeSlice,
+    auth: authSlice
 })
 
 const persistConfig = {
     key: 'root',
     storage: EncryptedStorageAdapter,
-    whitelist: ['theme']
+    whitelist: ['theme', 'auth']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers);
