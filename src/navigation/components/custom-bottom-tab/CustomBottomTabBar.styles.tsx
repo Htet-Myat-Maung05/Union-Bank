@@ -8,14 +8,6 @@ const getStyles = (theme: IExtendedTheme) =>
             height: 70,
             backgroundColor: theme.colors.background
         },
-        floatingContainer: {
-            // flex: 1,
-            // justifyContent: 'center',
-            // alignItems: 'center'
-            position: 'absolute',
-            left: 180,
-            bottom: 45,
-        },
         floatingBtn: {
             width: 40,
             height: 40,

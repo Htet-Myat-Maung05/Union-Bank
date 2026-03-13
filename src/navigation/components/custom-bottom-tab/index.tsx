@@ -6,15 +6,48 @@ import { Pressable, View } from "react-native";
 import { FLOATING_MENU } from "@/constants/Route.constants";
 import RNText from '@/components/custom-text'
 import getStyles from "./CustomBottomTabBar.styles";
+import FloatingMenu from "@/components/floating-button";
+import { memo, useCallback, useMemo } from "react";
 
-export default function CustomBottomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+const FloatingTab = memo(({ navigation }: { navigation: any }) => {
+    const actions = useMemo(() => [
+        {
+            icon: 'qr-code-outline',
+            label: 'Scan QR',
+            color: '#007AFF',
+            onPress: () => navigation.navigate('QR_SCREEN'),
+        },
+        {
+            icon: 'arrow-down-outline',
+            label: 'Cash In',
+            color: '#34C759',
+            onPress: () => navigation.navigate('CASHIN_SCREEN'),
+        },
+        {
+            icon: 'arrow-up-outline',
+            label: 'Cash Out',
+            color: '#FF3B30',
+            onPress: () => navigation.navigate('CASHOUT_SCREEN'),
+        },
+        {
+            icon: 'swap-horizontal-outline',
+            label: 'Transfer',
+            color: '#FF9500',
+            onPress: () => navigation.navigate('TRANSFER_SCREEN'),
+        },
+    ], [navigation]);
+
+    return <FloatingMenu actions={actions} />;
+});
+
+const CustomBottomTabBar = ({ state, descriptors, navigation }: BottomTabBarProps) => {
     const theme = useCustomTheme();
     const styles = getStyles(theme);
 
     const ACTIVE_COLOR = theme.colors.primary;
     const INACTIVE_COLOR = theme.colors.black;
 
-    const getIcon = (routeName: string, isFocused: boolean) => {
+    const getIcon = useCallback((routeName: string, isFocused: boolean) => {
 
         const color = isFocused ? ACTIVE_COLOR : INACTIVE_COLOR;
         const size = 24;
@@ -31,7 +64,7 @@ export default function CustomBottomTabBar({ state, descriptors, navigation }: B
             default:
                 return null;
         }
-    }
+    }, [ACTIVE_COLOR, INACTIVE_COLOR])
 
     const navigateDebounced = useDebouncedCallback(
         (routeName: string, routeKey: string, isFocused: boolean) => {
@@ -46,7 +79,7 @@ export default function CustomBottomTabBar({ state, descriptors, navigation }: B
             }
         },
         1000,
-        { leading: true, trailing: true }
+        { leading: true, trailing: false }
     );
 
     return (
@@ -58,14 +91,10 @@ export default function CustomBottomTabBar({ state, descriptors, navigation }: B
 
                 if (route.name === FLOATING_MENU) {
                     return (
-                        <View key={index} style={styles.floatingContainer}>
-                            <Pressable
-                                style={[styles.floatingBtn, { backgroundColor: ACTIVE_COLOR }]}
-                                onPress={() => navigation.navigate(route.name)}>
-                                <Ionicons name="qr-code-outline" size={24} color={theme.colors.black} />
-                            </Pressable>
+                        <View key={index} >
+                            <FloatingTab navigation={navigation} />
                         </View>
-                    )
+                    );
                 }
 
                 return (
@@ -75,7 +104,7 @@ export default function CustomBottomTabBar({ state, descriptors, navigation }: B
                         style={styles.tabItem}>
                         {isFocused && <View style={[styles.activeBar, { backgroundColor: ACTIVE_COLOR }]} />}
                         <View style={styles.iconLabel}>
-                            {getIcon(route.name, isFocused)};
+                            {getIcon(route.name, isFocused)}
                             <RNText style={[styles.label, { color: isFocused ? ACTIVE_COLOR : INACTIVE_COLOR }]}>
                                 {label}
                             </RNText>
@@ -86,3 +115,5 @@ export default function CustomBottomTabBar({ state, descriptors, navigation }: B
         </View>
     )
 }
+
+export default memo(CustomBottomTabBar);
